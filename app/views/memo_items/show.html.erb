@@ -1,0 +1,9 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @memo_item.body %>
+</p>
+
+<%= link_to 'Edit', edit_memo_item_path(@memo_item) %> |
+<%= link_to 'Back', memo_items_path %>
