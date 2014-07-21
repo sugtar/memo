@@ -11,12 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140721151445) do
+ActiveRecord::Schema.define(version: 20140721154216) do
 
   create_table "memo_items", force: true do |t|
     t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "memo_items_metadata", id: false, force: true do |t|
+    t.integer "memo_item_id", null: false
+    t.integer "metadatum_id", null: false
   end
 
   create_table "metadata", force: true do |t|
