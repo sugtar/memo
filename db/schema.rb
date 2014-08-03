@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140721154216) do
+ActiveRecord::Schema.define(version: 20140727133533) do
 
   create_table "memo_items", force: true do |t|
     t.text     "body"
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 20140721154216) do
   end
 
   create_table "metadata", force: true do |t|
-    t.string   "body"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

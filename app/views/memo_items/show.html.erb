@@ -4,6 +4,16 @@
   <strong>Body:</strong>
   <%= @memo_item.body %>
 </p>
+<p>
+  <strong>Metadata:</strong>
+  <% metadata_string = "" %>
+  <% if @memo_item.metadata != nil %>
+  <% @memo_item.metadata.each do |item| %>
+  <% metadata_string << (item.name + ", ") %>
+  <% end %>
+  <% end %>
+  <%= metadata_string[0, (metadata_string.length - 2)] %>
+</p>
 
 <%= link_to 'Edit', edit_memo_item_path(@memo_item) %> |
 <%= link_to 'Back', memo_items_path %>
