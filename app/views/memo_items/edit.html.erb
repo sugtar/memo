@@ -1,0 +1,30 @@
+<h1>Editing memo_item</h1>
+
+<%= form_for(@memo_item) do |f| %>
+  <% if @memo_item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@memo_item.errors.count, "error") %> prohibited this memo_item from being saved:</h2>
+
+      <ul>
+      <% @memo_item.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :body %><br>
+    <%= f.text_area :body %>
+  </div>
+  <div>
+    <label for="metadata">Metabada</label><br>
+    <input type="text" name="metadata" value="<%= @metadata_str %>"/>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<%= link_to 'Show', @memo_item %> |
+<%= link_to 'Back', memo_items_path %>
