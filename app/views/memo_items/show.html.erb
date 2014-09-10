@@ -1,3 +1,6 @@
+<% content_for :javascript_in_head do %>
+<%= javascript_include_tag "memo_item_show" %>
+<% end %>
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -16,4 +19,52 @@
 </p>
 
 <%= link_to 'Edit', edit_memo_item_path(@memo_item) %> |
-<%= link_to 'Back', memo_items_path %>
+<%= link_to 'Back', memo_items_path %> |
+<%= link_to 'New related item', new_related_item_memo_item_path(@memo_item) %>
+
+<p>
+  <strong>Related Memo (children)</strong>
+  <div>
+    <% @memo_item.relationships.each do |relationship| %>
+    <div> => <%= relationship.name.name %>
+      <div>Body:
+	<div>
+	  <%= relationship.target_item.body %>
+	</div>
+      </div>
+      <div>
+	<strong>Metadata:</strong>
+	<% metadata_string = "" %>
+	<% if relationship.target_item.metadata != nil %>
+	<% relationship.target_item.metadata.each do |item| %>
+	<% metadata_string  << (item.name + ", ") %>
+	<% end %>
+	<% end %>
+	<%= metadata_string[0, (metadata_string.length - 2)] %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+  <strong>Related Memo (parents)</strong>
+  <div>
+    <% @memo_item.reverse_relationships.each do |relationship| %>
+    <div> <= <%= relationship.name.name %>
+      <div>Body:
+	<div>
+	  <%= relationship.source_item.body %>
+	</div>
+      </div>
+      <div>
+	<strong>Metadata:</strong>
+	<% metadata_string = "" %>
+	<% if relationship.target_item.metadata != nil %>
+	<% relationship.target_item.metadata.each do |item| %>
+	<% metadata_string  << (item.name + ", ") %>
+	<% end %>
+	<% end %>
+	<%= metadata_string[0, (metadata_string.length - 2)] %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</p>

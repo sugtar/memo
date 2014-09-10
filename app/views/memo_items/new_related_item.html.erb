@@ -1,0 +1,39 @@
+<div>
+  <div>
+    <dl>
+      <%= form_for @new_memo_item, url: {action: 'create_related_item'} do |f| %>
+      <div>
+	<label for="metadata">Relation Name</label><br>
+	<input type="text" name="relation_name" />
+      </div>
+      <dt>SOURCE:</dt>
+      <dd>
+	<dl>
+	  <dt>body:</dt>
+	  <dd><%= @memo_item.body %></dd>
+	  <dt>metadata:</dt>
+	  <dd><% @memo_item.metadata.each do |item| %><%= item.name %><% end %></dd>
+	</dl>
+      </dd>
+    </dl>
+  </div>
+  <div>
+    TARGET:
+    <div class="field">
+      <%= f.label :body %><br>
+      <%= f.text_area :body, size: "80x10" %>
+    </div>
+    <div>
+      <label for="metadata">Metabada</label><br>
+      <input type="text" name="metadata" />
+    </div>
+    <input type="hidden" name="source_item_id" value="<%= @memo_item.id %>">
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+    <% end %>
+  </div>
+  <div>
+    <%= link_to 'Back', memo_item_path(@memo_item) %>
+  </div>
+</div>

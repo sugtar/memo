@@ -10,6 +10,10 @@ class MemoItemsController < ApplicationController
   # GET /memo_items/1
   # GET /memo_items/1.json
   def show
+    
+  end
+
+  def show_alt
     #create map from target_id to memo_item
     target_id_to_memo_item_map = Hash.new
     target_memo_items = @memo_item.target_items
@@ -45,6 +49,7 @@ class MemoItemsController < ApplicationController
         @relationship_name_to_memo_items_map[relationship_name.intern] = Array.new
       end
       @relationship_name_to_memo_items_map[relationship_name.intern] << target_id_to_memo_item_map[relationship.target_item_id]
+      # DEBUG: check memo_item append to the array
     end
   end
 

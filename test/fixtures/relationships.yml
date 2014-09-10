@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  source_item_id: 1
+  target_item_id: 1
+  name_id: 1
+
+two:
+  source_item_id: 1
+  target_item_id: 1
+  name_id: 1

@@ -10,8 +10,8 @@
 
   <tbody>
     <% @memo_items.each do |memo_item| %>
-      <tr>
-        <td><%= memo_item.body %></td>
+      <tr class="memo_item_in_index">
+        <td class="memo_item_body_in_index"><%= memo_item.body %></td>
         <td><%= link_to 'Show', memo_item %></td>
         <td><%= link_to 'Edit', edit_memo_item_path(memo_item) %></td>
         <td><%= link_to 'Destroy', memo_item, method: :delete, data: { confirm: 'Are you sure?' } %></td>

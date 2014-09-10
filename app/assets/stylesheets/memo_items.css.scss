@@ -1,3 +1,39 @@
 // Place all the styles related to the memo_items controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.memo_item_in_index {
+    border-style: solid;
+    border-width: 0px 0px 1px 8px;
+    border-color: #000 #000 #888 #8f8;
+    margin: 4px;
+    padding: 4px;
+}
+
+.memo_item_metadata_in_index {
+    border-style: solid;
+    border-coler: #000;
+    border-width: 1px;
+    background-color: #eee;
+    padding: 1px;
+}
+
+.selected {
+    background-color: #fdd;
+}
+
+.unselected {
+    background-color: #fff;
+}
+
+.visible {
+    display: inherit;
+}
+
+.hidden {
+    display: none;
+}
+
+.memo_item_body_with_href {
+    text-decoration: none;
+}
