@@ -1,0 +1,40 @@
+<div>
+  <h1>web app view</h1>
+  <%= @memo_item.body %>
+</div>
+<div>
+  <% if @html_item != nil %>
+  <div id="web_app_part_html">
+    <%= @html_item.body %>
+  </div>
+  <% else %>
+  <div>
+    create html element
+    <%= link_to 'Html code', new_memo_item_path, remote: true %>
+    <span id="new_html"></span>
+  </div>
+  <% end %>
+  <% if @javascript_item != nil %>
+  <div id="web_app_part_js">
+    <%= @javascript_item.body %>
+  </div>
+  <% else %>
+  <div>
+    create javascript element
+  </div>
+  <% end %>
+  <% if @css_item != nil %>
+  <div id="web_app_part_css">
+    <%= @css_item.body %>
+  </div>
+  <% else %>
+  <div>
+    create css element
+  </div>
+  <% end %>
+</div>
+<div>
+<%= link_to 'Back', memo_items_path %>
+</div>
+
+

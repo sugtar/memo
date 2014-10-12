@@ -10,6 +10,14 @@ class MemoItemsController < ApplicationController
   # GET /memo_items/1
   # GET /memo_items/1.json
   def show
+    if @memo_item.has_metadatum?("web app part")
+      show_web_app_part
+    else
+      # show normal view
+    end
+  end
+
+  def show_alt
     #create map from target_id to memo_item
     target_id_to_memo_item_map = Hash.new
     target_memo_items = @memo_item.target_items
@@ -45,6 +53,7 @@ class MemoItemsController < ApplicationController
         @relationship_name_to_memo_items_map[relationship_name.intern] = Array.new
       end
       @relationship_name_to_memo_items_map[relationship_name.intern] << target_id_to_memo_item_map[relationship.target_item_id]
+      # DEBUG: check memo_item append to the array
     end
   end
 
@@ -194,6 +203,35 @@ class MemoItemsController < ApplicationController
       format.html { redirect_to memo_items_url, notice: 'Memo item was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def show_web_app_part
+    # prepare sub items
+    @html_item = nil
+    @javascript_item = nil
+    @css_item = nil
+    
+    implementation_items = Array.new
+
+    @memo_item.relationships.each do |relationship|
+      if relationship.name.name == "implementation"
+        implementation_items << relationships.target_item
+      end
+    end
+
+    implementation_items.each do |item|
+      if item.has_metadatum?("code")
+        if item.has_metadatum?("html")
+          @html_item = item
+        elsif item.has_metadatum?("javascript")
+          @javascript_item = item
+        elsif item.has_metadatum?("css")
+          @css_item = item
+        end
+      end
+    end
+
+    render "show_web_app_part"
   end
 
   private
