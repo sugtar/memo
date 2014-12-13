@@ -1,0 +1,21 @@
+.grayLayer {
+    display: none;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: #000;
+    opacity: 0.75;
+    filter: alpha(opacity=75);
+}
+
+.input_area {
+    display: none;
+    position: fixed;
+    top: 12%;
+    left:12%;
+    height: 75%;
+    width: 75%;
+    background-color: #fff;
+}

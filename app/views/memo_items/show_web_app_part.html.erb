@@ -1,3 +1,9 @@
+<% content_for :stylesheet_in_head do %>
+<%= stylesheet_link_tag "show_web_app_part" %>
+<% end %>
+<% content_for :javascript_in_head do %>
+<%= javascript_include_tag "show_web_app_part" %>
+<% end %>
 <div>
   <h1>web app view</h1>
   <%= @memo_item.body %>
@@ -5,8 +11,7 @@
 <div>
   <% if @html_item != nil %>
   <div id="web_app_part_html">
-    <%= @html_item.body %>
-  </div>
+    <%= @html_item.body %>  </div>
   <% else %>
   <div>
     create html element
@@ -35,6 +40,27 @@
 </div>
 <div>
 <%= link_to 'Back', memo_items_path %>
+<a href="javascript:var%20d=window.open().document;d.writeln('<!DOCTYPE%20html><html><body><textarea%20rows=1%20cols=40>'+location.href+'</textarea></body></html>');">bookmarklet test</a>
 </div>
-
-
+<div>
+  <button onclick="javascript:showGrayLayer(); showInputArea();">show gray layer</button>
+  <button onclick="javascript:hideGrayLayer()">hide gray layer</button>
+</div>
+<div class="grayLayer">
+</div>
+<div id="html_input_area" class="input_area">
+  <%= form_for(@memo_item) do |f| %>
+  <div class="field">
+    <%= f.label :body %><br>
+    <%= f.text_area :body, size: "80x10" %>
+  </div>
+  <div>
+    <label for="metadata">Metabada</label><br>
+    <input type="text" name="metadata" />
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+  <!-- add relation -->
+  <% end %>
+</div>

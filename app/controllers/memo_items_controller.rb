@@ -219,6 +219,7 @@ class MemoItemsController < ApplicationController
       end
     end
 
+    # set items if exist
     implementation_items.each do |item|
       if item.has_metadatum?("code")
         if item.has_metadatum?("html")
