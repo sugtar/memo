@@ -1,0 +1,11 @@
+<h1>Export all items</h1>
+
+<%= form_tag import_all_memo_items_path, method: 'post' do %>
+  <div>
+    <%= @data_in_json %>
+  </div>
+  <p>
+    <%= text_field_tag :all_items, params[:all_items] %>
+    <%= submit_tag "Import all items", name: nil %>
+  </p>
+<% end %>

@@ -1,3 +1,5 @@
+require 'json'
+
 class MemoItemsController < ApplicationController
   before_action :set_memo_item, only: [:show, :edit, :update, :destroy, :new_related_item]
 
@@ -15,6 +17,41 @@ class MemoItemsController < ApplicationController
     else
       # show normal view
     end
+  end
+
+  def export_all
+    memos = Array.new
+    MemoItem.all.each do |memo|
+      memos << {id: memo.id, body: memo.body}
+    end
+
+    relationships = Array.new
+    Relationship.all.each do |relationship|
+      relationships << {id: relationship.id, source_item_id: relationship.source_item_id, target_item_id: relationship.target_item_id, name_id: relationship.name_id}
+    end
+
+    metadata = Array.new
+    Metadatum.all.each do |metadatum|
+      metadata << {id: metadatum.id, name: metadatum.name}
+    end
+
+    memo_items_metadata = Array.new
+    MemoItem.all.each do |memo_item|
+      memo_item.metadata.each do |metadatum|
+        memo_items_metadata << {memo_item_id: memo_item.id, metadatum_id: metadatum.id}
+      end
+    end
+
+    relationship_names = Array.new
+    RelationshipName.all.each do |relationship_name|
+      relationship_names << {id: relationship_name.id, name: relationship_name.name}
+    end
+
+    data = {memo_items: memos, relationships: relationships, metadata: metadata, memo_items_metadata: memo_items_metadata, relationship_names: relationship_names}
+    @data_in_json = JSON.generate(data)
+  end
+
+  def import_all
   end
 
   def show_alt

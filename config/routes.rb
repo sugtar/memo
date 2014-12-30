@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   resources :memo_items do
+    collection do
+      get :export_all
+      post :import_all
+    end
     member do
       get :new_related_item
       post :create_related_item
