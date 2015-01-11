@@ -4,6 +4,9 @@ Rails.application.routes.draw do
       get :new_related_item
       post :create_related_item
     end
+    collection do
+      get :export
+    end
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

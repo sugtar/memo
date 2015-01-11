@@ -7,6 +7,48 @@ class MemoItemsController < ApplicationController
     @memo_items = MemoItem.all
   end
 
+  def export
+    @json_data = Hash.new
+
+    # memo items
+    memo_items_json = Array.new
+    memo_items = MemoItem.all
+    memo_items.each do |memo_item|
+      memo_items_json << {id: memo_item.id, body: memo_item.body, created_at: memo_item.created_at}
+    end
+
+    # metadata
+    metadata_json = Array.new
+    metadata = Metadatum.all
+    metadata.each do |metadatum|
+      metadata_json << {id: metadatum.id, name: metadatum.name}
+    end
+
+    # memo_items_metadata
+    memo_items_metadata_json = Array.new
+    memo_items.each do |memo_item|
+      memo_item.metadata.each do |metadatum|
+        memo_items_metadata_json << {memo_item_id: memo_item.id, matadatum_id: metadatum.id}
+      end
+    end
+
+    # relationships
+    relationships_json = Array.new
+    relationships = Relationship.all
+    relationships.each do |relationship|
+      relationships_json << {id: relationship.id, source_item_id: relationship.source_item_id, target_item_id: relationship.target_item_id, name_id: relationship.name_id}
+    end
+
+    # relationship_names
+    relationship_names_json = Array.new
+    relationship_names = RelationshipName.all
+    relationship_names.each do |name|
+      relationship_names_json << {id: name.id, name: name.name}
+    end
+
+    @json_data = {memo_items: memo_items_json, metadata: metadata_json, memo_items_metadata: memo_items_metadata_json, relationships: relationships_json, relationship_names: relationship_names_json}
+  end
+
   # GET /memo_items/1
   # GET /memo_items/1.json
   def show

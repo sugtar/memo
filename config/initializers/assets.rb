@@ -8,3 +8,4 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.precompile += %w( search.js )
 Rails.application.config.assets.precompile += %w( memo_item_index.js )
 Rails.application.config.assets.precompile += %w( memo_item_show.js )
+Rails.application.config.assets.precompile += %w( memo_items_index.css )
