@@ -1,0 +1,6 @@
+<h1>Import data</h1>
+
+<%= form_tag do_import_memo_items_path do %>
+<%= text_area :import, :content, size: "80x20" %>
+<%= submit_tag "import" %>
+<% end %>

@@ -1,0 +1,17 @@
+<h1>imported data</h1>
+
+<h2>memo items</h2>
+size: <%= @memo_items.size %>
+<% @memo_items.each do |memo_item| %>
+<div>
+<%= memo_item["body"] %>
+</div>
+<% end %>
+
+<h2>metadata</h2>
+size: <%= @metadata.size %>
+<% @metadata.each do |metadatum| %>
+<div>
+<%= metadatum["name"] %>
+</div>
+<% end %>

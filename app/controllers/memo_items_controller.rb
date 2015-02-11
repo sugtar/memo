@@ -28,7 +28,7 @@ class MemoItemsController < ApplicationController
     memo_items_metadata_json = Array.new
     memo_items.each do |memo_item|
       memo_item.metadata.each do |metadatum|
-        memo_items_metadata_json << {memo_item_id: memo_item.id, matadatum_id: metadatum.id}
+        memo_items_metadata_json << {memo_item_id: memo_item.id, metadatum_id: metadatum.id}
       end
     end
 
@@ -47,6 +47,81 @@ class MemoItemsController < ApplicationController
     end
 
     @json_data = {memo_items: memo_items_json, metadata: metadata_json, memo_items_metadata: memo_items_metadata_json, relationships: relationships_json, relationship_names: relationship_names_json}
+  end
+
+  def import
+  end
+
+  def do_import
+    imported_data = params[:import][:content]
+    json_data = JSON.parse(imported_data)
+
+    # metadata
+    metadata_map = Hash.new # (orig_id, new_obj)
+    @metadata = json_data["metadata"]
+    ## create metadata
+    @metadata.each do |orig_metadatum|
+      orig_id = orig_metadatum["id"]
+      orig_name = orig_metadatum["name"]
+      new_metadatum = Metadatum.find_or_create_by(name: orig_metadatum["name"])
+      metadata_map[orig_id.to_i] = new_metadatum
+      logger.debug("id: #{orig_id}, name: #{orig_name}, new id: #{new_metadatum.id}")
+    end
+
+    memo_items_map = Hash.new # (orig_id, new_obj)
+    # memo_items
+    @memo_items = json_data["memo_items"]
+    ## create memo items
+    @memo_items.each do |orig_memo_item|
+      orig_id = orig_memo_item["id"]
+      orig_body = orig_memo_item["body"]
+      new_memo_item = MemoItem.new(body: orig_body)
+      new_memo_item.save
+      memo_items_map[orig_id.to_i] = new_memo_item
+    end
+
+    # associate memo_items to metadata
+    memo_items_metadata = json_data["memo_items_metadata"]
+    memo_items_metadata.each do |memo_item_metadatum|
+      memo_item_id = memo_item_metadatum["memo_item_id"]
+      metadatum_id = memo_item_metadatum["metadatum_id"]
+      logger.debug("memo_item.id: #{memo_item_id}, metadatum_id: #{memo_item_metadatum['metadatum_id']}")
+      logger.debug("class: #{memo_items_map[memo_item_id].class}")
+      metadatum = metadata_map[metadatum_id.to_i]
+      logger.debug("metadatum: #{metadatum}")
+      if metadatum == nil
+        logger.debug("metadataum == nil: metadatum_id=#{metadatum_id}")
+      end
+      memo_items_map[memo_item_id].metadata << metadata_map[metadatum_id.to_i]
+      memo_items_map[memo_item_id].save
+    end
+
+    # relation...
+    ## relationship_name
+    relationship_names_map = Hash.new # (orig_id, new_obj)
+    relationship_names = json_data["relationship_names"]
+    relationship_names.each do |relationship_name|
+      orig_id = relationship_name["id"]
+      new_relationship_name = RelationshipName.find_or_create_by(name: relationship_name["name"])
+      relationship_names_map[orig_id.to_i] = new_relationship_name
+    end
+
+    ## relationship
+    relationships = json_data["relationships"]
+    relationships.each do |relationship|
+      orig_source_item_id = relationship["source_item_id"]
+      orig_target_item_id = relationship["target_item_id"]
+      orig_name_id = relationship["name_id"]
+      source_item = memo_items_map[orig_source_item_id.to_i]
+      target_item = memo_items_map[orig_target_item_id.to_i]
+      name = relationship_names_map[orig_name_id.to_i]
+      new_relationship = Relationship.new
+      new_relationship.source_item_id = source_item.id
+      new_relationship.target_item_id = target_item.id
+      new_relationship.name_id = name.id
+      new_relationship.save
+    end
+
   end
 
   # GET /memo_items/1
@@ -147,9 +222,9 @@ class MemoItemsController < ApplicationController
         relation_name.strip!
         relationship_name = RelationshipName.find_or_create_by(name: relation_name)
         relationship = Relationship.new
-        relationship.source_item_id = @source_memo_item.id
-        relationship.target_item_id = @memo_item.id
-        relationship.name_id = relationship_name.id
+        relationship.source_item = @source_memo_item
+        relationship.target_item = @memo_item
+        relationship.name = relationship_name
         relationship.save # to be checked
       end
     end
@@ -171,7 +246,7 @@ class MemoItemsController < ApplicationController
     respond_to do |format|
       if @memo_item.save
 
-        # create matadata
+        # create metadata
         metadata = params[:metadata]
         if metadata != nil
           metadata_items = metadata.split(",")

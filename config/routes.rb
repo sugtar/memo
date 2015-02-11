@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     end
     collection do
       get :export
+      get :import
+      post :do_import
     end
   end
 
