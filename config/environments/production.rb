@@ -81,3 +81,11 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 end
+
+=begin
+MyApp::Application.configure do
+  config.middleware.use Rack::Auth::Basic do |username, password|
+    username == ENV['BASIC_AUTH_USERNAME'] && password == ENV['BASIC_AUTH_PASSWORD']
+  end
+end
+=end
