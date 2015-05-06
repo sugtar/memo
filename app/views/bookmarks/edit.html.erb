@@ -1,0 +1,27 @@
+<h1>edit bookmark</h1>
+<div>
+  <%= form_for(@bookmark[:url]) do |f| %>
+  <%= f.label :body, "url:" %><br>
+  <%= f.text_area :body %><br>
+  <%= f.submit 'update url'%>
+  <% end %>
+</div>
+<div>
+  <%= form_for(@bookmark[:title]) do |f| %>
+  <%= f.label :body, 'title:' %><br>
+  <%= f.text_area :body %><br>
+  <%= f.submit 'update title'%>
+  <% end %>
+</div>
+<div>
+  <%= form_for(@bookmark[:comment]) do |f| %>
+  <%= f.label :body, 'comment' %><br>
+  <%= f.text_area :body %><br>
+  <label for='metadate'>metadata:</label><br>
+  <input type='text' name='metadata' value='<%= create_metadata_str(@bookmark[:comment].metadata) %>' ><br>
+  <%= f.submit 'update comment'%>
+  <% end %>
+</div>
+<div>
+  <%= link_to 'Show', {controller: 'bookmarks', action: 'show', id: @bookmark[:url].id} %>
+</div>

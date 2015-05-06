@@ -9,6 +9,10 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <div>
+    <%= link_to 'memo', {controller: 'memo_items', action: 'index'} %>
+    <%= link_to 'bookmark', {controller: 'bookmarks', action: 'index'} %>
+  </div>
 
 <%= yield %>
 

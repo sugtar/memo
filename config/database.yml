@@ -9,9 +9,16 @@ default: &default
   pool: 5
   timeout: 5000
 
-#development:
+development:
 #  <<: *default
 #  database: db/development.sqlite3
+  adapter: postgresql
+  host: localhost
+  encoding: utf8
+  database: memo
+  pool: 5
+  username: memo
+  password: admin
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -22,7 +29,6 @@ default: &default
 
 production:
 #  <<: *default
-  database: db/production.sqlite3
   adapter: postgresql
   host: localhost
   encoding: utf8

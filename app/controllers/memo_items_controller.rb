@@ -238,8 +238,8 @@ class MemoItemsController < ApplicationController
   def create
     # test code
     memo_item_params.each do |key, value|
-      logger.debug("key:" + key + ", value: " + value);
-    end 
+      logger.debug('key:' + key + ', value: ' + value)
+    end
 
     @memo_item = MemoItem.new(memo_item_params)
 
@@ -249,7 +249,7 @@ class MemoItemsController < ApplicationController
         # create metadata
         metadata = params[:metadata]
         if metadata != nil
-          metadata_items = metadata.split(",")
+          metadata_items = metadata.split(',')
           metadata_items.each do |item|
             item.strip! # trim white space
 
@@ -294,8 +294,14 @@ class MemoItemsController < ApplicationController
           @memo_item.metadata << Metadatum.find_or_create_by(name: name)
         end
 
-        format.html { redirect_to @memo_item, notice: 'Memo item was successfully updated.' }
-        format.json { render :show, status: :ok, location: @memo_item }
+        if bookmark_update?(request.referer)
+          # redirect to bookmark
+          format.html { redirect_to controller: 'bookmarks', action: 'show', id: get_id_in_referer(request.referer)}
+          format.json { render :show, status: :ok, location: @memo_item }
+        else
+          format.html { redirect_to @memo_item, notice: 'Memo item was successfully updated.' }
+          format.json { render :show, status: :ok, location: @memo_item }
+        end
       else
         format.html { render :edit }
         format.json { render json: @memo_item.errors, status: :unprocessable_entity }
@@ -322,5 +328,27 @@ class MemoItemsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def memo_item_params
       params.require(:memo_item).permit(:body)
+    end
+
+    # bookmark update check
+    def bookmark_update?(referer)
+      if referer.nil?
+        return false
+      end
+      # check format http://server:port/bookmarks/id/edit
+      if /http:\/\/.+(|:\d+)\/bookmarks\/\d+\/edit/ =~ referer
+        logger.debug('referer regexp ok')
+        return true
+      else
+        logger.debug('referer regexp failed')
+        return false
+      end
+    end
+
+    def get_id_in_referer(referer)
+      referer_items = referer.split('/')
+      id = referer_items[referer_items.size - 2]
+      logger.debug("bookmark id: #{id}")
+      return id.to_i
     end
 end

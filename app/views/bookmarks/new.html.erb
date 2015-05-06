@@ -1,0 +1,31 @@
+<h1>bookmark new</h1>
+
+<h2>url</h2>
+<% if @url %>
+<%= @url %>
+<% else %>
+NO URL
+<% end %>
+
+<h2>title</h2>
+<% if @title %>
+<%= @title %>
+<% else %>
+NO TITLE
+<% end %>
+
+<%= form_tag('/bookmarks') do %>
+  <%= hidden_field_tag(:url, @url) %>
+  <%= hidden_field_tag(:title, @title) %>
+  <div>
+    <%= label_tag(:comment, 'comment') %><br>
+    <%= text_area_tag(:comment, '', size: '24x8') %>
+  </div>
+  <div>
+    <%= label_tag(:comment_metadata, 'metadata') %><br>
+    <%= text_field_tag(:comment_metadata) %>
+  </div>
+  <div>
+    <%= submit_tag('add bookmark') %>
+  </div>
+<% end %>

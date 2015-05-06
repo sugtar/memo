@@ -4,6 +4,8 @@
 
 <h1>Listing memo_items</h1>
 
+<%= link_to 'New Memo item', new_memo_item_path %>
+
 <table>
   <thead>
     <tr>
@@ -13,13 +15,15 @@
   </thead>
 
   <tbody>
+    <% odd_line = true %>
     <% @memo_items.each do |memo_item| %>
       <tr class="memo_item_in_index">
-        <td class="memo_item_body_in_index"><%= memo_item.body %></td>
+        <td class="memo_item_body_in_index <%= if odd_line then 'odd_line' else 'even_line' end %>"><%= memo_item.body %></td>
         <td><%= link_to 'Show', memo_item %></td>
         <td><%= link_to 'Edit', edit_memo_item_path(memo_item) %></td>
         <td><%= link_to 'Destroy', memo_item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
+      <% odd_line = !odd_line %>
     <% end %>
   </tbody>
 </table>

@@ -1,0 +1,37 @@
+<% content_for :stylesheet_in_head do %>
+<%= stylesheet_link_tag "bookmarks_index" %>
+<% end %>
+
+<h1>bookmarks</h1>
+<div>
+  <div id="bookmarklet">
+    bookmarklet:
+    <div id="bookmarklet_url">
+      javascript:var%20url=encodeURIComponent(location.href);var%20title=encodeURIComponent(document.title);window.open("<%= @base_url %>?url="+url+"&title="+title);
+    </div>
+  </div>
+  <div>
+    <% @bookmarks.each do |bookmark| %>
+    <div class='bookmark_item'>
+      <div class='bookmark_title'>
+        title: <%= bookmark[:title].body %>
+      </div>
+      <div class='bookmark_url'>
+        url: <%= bookmark[:url].body %>
+      </div>
+      <div class='bookmark_comment'>
+        comment: <%= bookmark[:comment].body %>
+      </div>
+      <div class='metadata'>
+        metadata:
+        <%= create_metadata_str(bookmark[:metadata]) %>
+      </div>
+      <div>
+        <%= link_to 'Show', {controller: 'bookmarks', action: 'show', id: bookmark[:url].id} %>
+        <%= link_to 'Edit', {controller: 'bookmarks', action: 'edit', id: bookmark[:url].id} %>
+        <%= link_to 'Delete', "/bookmarks/#{bookmark[:url].id}", method: 'delete', data: {confirm: 'Are you sure?'} %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>
