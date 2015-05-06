@@ -1,0 +1,15 @@
+<h1>show bookmark</h1>
+<div>
+  <div>
+    title: <%= @bookmark[:title].body %><br>
+    url: <%= @bookmark[:url].body %><br>
+    comment: <%= @bookmark[:comment].body %><br>
+    metadata:
+    <% metadata_str = "" %>
+    <%= create_metadata_str(@bookmark[:metadata]) %>
+  </div>
+  <div>
+    <%= link_to 'Edit', {controller: 'bookmarks', action: 'edit', id: @bookmark[:url].id} %>
+    <%= link_to 'Delete', "/bookmarks/#{@bookmark[:url].id}", method: 'delete', data: {confirm: 'Are you sure?'} %>
+  </div>
+</div>
