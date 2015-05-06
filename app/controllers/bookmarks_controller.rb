@@ -1,6 +1,8 @@
 class BookmarksController < ApplicationController
 
   def index
+    tmp = request.original_url.split('?')
+    @base_url = tmp[0]
     @bookmarks = Array.new
     # get bookmark items
     bookmark_metadatum = Metadatum.find_by(name: '#bookmark')
