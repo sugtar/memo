@@ -17,6 +17,7 @@
 body {
   background-color: #222;
   color: #ddd;
+  -webkit-text-size-adjust: 100%;
 }
 
 a:link {
