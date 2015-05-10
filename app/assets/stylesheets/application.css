@@ -18,7 +18,7 @@ body {
   background-color: #222;
   color: #ddd;
   -webkit-text-size-adjust: 100%;
-  word-wrap: break-word;
+  word-break: break-all;
 }
 
 a:link {
