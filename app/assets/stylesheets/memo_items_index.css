@@ -12,7 +12,11 @@ body {
     border-bottom-width: 1px;
     border-bottom-color: #ddd;
     padding: 4px;
-    width: 720px;
+    width: 100%;
+}
+
+.memo_item_body_in_index {
+  word-break: break-all;
 }
 
 .odd_line {
